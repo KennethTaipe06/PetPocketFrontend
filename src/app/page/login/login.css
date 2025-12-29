@@ -1,0 +1,106 @@
+.login-page {
+  display: flex;
+  height: 100vh;
+  background: #ebebeb;
+}
+
+/* IZQUIERDA */
+.image-section {
+  width: 50%;
+  background-image: url('/PETPOCKET.png');
+  background-size: cover;
+  background-position: center;
+}
+
+/* DERECHA */
+.form-section {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* CARD */
+.card {
+  background: white;
+  width: 80%;
+  max-width: 420px;
+  padding: 40px;
+  border-radius: 30px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+  text-align: center;
+}
+
+/* TEXTOS */
+.brand {
+  color: #ff7a18;
+  font-weight: 900;
+  font-size: 28px;
+}
+
+.title {
+  margin-top: 10px;
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.subtitle {
+  color: #777;
+  margin: 10px 0 30px;
+}
+
+/* INPUTS */
+label {
+  display: block;
+  text-align: left;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+input {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  background: #f2f2f2;
+  margin-bottom: 15px;
+  outline: none;
+}
+
+input:focus {
+  outline: 2px solid #ff7a18;
+}
+
+/* LINKS */
+.forgot {
+  display: block;
+  text-align: right;
+  font-size: 13px;
+  color: #ff7a18;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+/* BOTÓN */
+button {
+  width: 100%;
+  padding: 15px;
+  background: #ff7a18;
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #e96a10;
+}
+
+/* TEXTO INFERIOR */
+.bottom-text {
+  margin-top: 20px;
+  font-size: 14px;
+}

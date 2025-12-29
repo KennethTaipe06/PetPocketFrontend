@@ -1,0 +1,150 @@
+<div class="calendario-container">
+    <div class="header">
+        <h1>Calendario de Citas</h1>
+
+        <!-- Botones de vista -->
+        <div class="vista-buttons">
+            <button [class.activo]="vistaActual === 'lista'" (click)="cambiarVista('lista')">
+                📋 Lista
+            </button>
+            <button [class.activo]="vistaActual === 'calendario'" (click)="cambiarVista('calendario')">
+                📅 Calendario
+            </button>
+        </div>
+    </div>
+
+    <!-- Filtros -->
+    <div class="filtros-panel">
+        <div class="filtros-grid">
+            <div class="filtro-item">
+                <label for="fechaInicio">Desde:</label>
+                <input type="date" id="fechaInicio" [(ngModel)]="fechaInicio" class="form-control">
+            </div>
+
+            <div class="filtro-item">
+                <label for="fechaFin">Hasta:</label>
+                <input type="date" id="fechaFin" [(ngModel)]="fechaFin" class="form-control">
+            </div>
+
+            <div class="filtro-item">
+                <label for="veterinario">Veterinario:</label>
+                <select id="veterinario" [(ngModel)]="veterinarioSeleccionado" class="form-control">
+                    <option [value]="undefined">Todos</option>
+                    <option *ngFor="let vet of veterinarios" [value]="vet.idUser">
+                        {{ vet.nombre }}
+                    </option>
+                </select>
+            </div>
+
+            <div class="filtro-actions">
+                <button (click)="aplicarFiltros()" class="btn-aplicar">Aplicar</button>
+                <button (click)="limpiarFiltros()" class="btn-limpiar">Limpiar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Estadísticas -->
+    <div *ngIf="estadisticas" class="estadisticas">
+        <div class="stat-card">
+            <div class="stat-numero">{{ estadisticas.total }}</div>
+            <div class="stat-label">Total</div>
+        </div>
+        <div class="stat-card programada">
+            <div class="stat-numero">{{ estadisticas.programadas }}</div>
+            <div class="stat-label">Programadas</div>
+        </div>
+        <div class="stat-card confirmada">
+            <div class="stat-numero">{{ estadisticas.confirmadas }}</div>
+            <div class="stat-label">Confirmadas</div>
+        </div>
+        <div class="stat-card completada">
+            <div class="stat-numero">{{ estadisticas.completadas }}</div>
+            <div class="stat-label">Completadas</div>
+        </div>
+        <div class="stat-card cancelada">
+            <div class="stat-numero">{{ estadisticas.canceladas }}</div>
+            <div class="stat-label">Canceladas</div>
+        </div>
+    </div>
+
+    <!-- Loader -->
+    <div *ngIf="cargando" class="loader">
+        <p>Cargando citas...</p>
+    </div>
+
+    <!-- Error -->
+    <div *ngIf="error" class="error-message">
+        {{ error }}
+    </div>
+
+    <!-- Vista Lista -->
+    <div *ngIf="!cargando && !error && vistaActual === 'lista'" class="vista-lista">
+        <div *ngIf="citasFiltradas.length === 0" class="sin-citas">
+            <p>No hay citas en el rango seleccionado.</p>
+        </div>
+
+        <div *ngFor="let cita of citasFiltradas" class="cita-card">
+            <div class="cita-header">
+                <div class="fecha-hora">
+                    <div class="fecha">{{ formatearFecha(cita.fecha) }}</div>
+                    <div class="hora">{{ cita.hora }}</div>
+                </div>
+                <span class="estado-badge" [ngClass]="obtenerClaseEstado(cita.estadoCita)">
+                    {{ cita.estadoCita }}
+                </span>
+            </div>
+
+            <div class="cita-body">
+                <div class="info-row">
+                    <div class="info-item">
+                        <strong>Cliente:</strong> {{ cita.nombreCliente || 'N/A' }}
+                    </div>
+                    <div class="info-item">
+                        <strong>Mascota:</strong> {{ cita.mascota?.nombre || cita.nombreMascota || 'N/A' }}
+                        <span *ngIf="cita.mascota?.especie"> ({{ cita.mascota?.especie }})</span>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <div class="info-item" *ngIf="cita.veterinario?.nombre || cita.nombreVeterinario">
+                        <strong>Veterinario:</strong> {{ cita.veterinario?.nombre || cita.nombreVeterinario }}
+                    </div>
+                    <div class="info-item" *ngIf="cita.servicio?.nombre || cita.nombreServicio">
+                        <strong>Servicio:</strong> {{ cita.servicio?.nombre || cita.nombreServicio }}
+                    </div>
+                </div>
+                <div class="info-item" *ngIf="cita.detallesMongo?.motivo || cita.motivo">
+                    <strong>Motivo:</strong> {{ cita.detallesMongo?.motivo || cita.motivo }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vista Calendario -->
+    <div *ngIf="!cargando && !error && vistaActual === 'calendario'" class="vista-calendario">
+        <div class="calendario-header">
+            <button (click)="mesAnterior()" class="btn-mes">◄</button>
+            <h2>{{ obtenerNombreMes() }}</h2>
+            <button (click)="mesSiguiente()" class="btn-mes">►</button>
+        </div>
+
+        <div class="calendario-grid">
+            <!-- Días de la semana -->
+            <div *ngFor="let dia of diasSemana" class="dia-semana">
+                {{ dia }}
+            </div>
+
+            <!-- Días del mes -->
+            <div *ngFor="let dia of diasMes" class="dia-celda" [class.otro-mes]="!dia.mesActual"
+                [class.hoy]="esHoy(dia.fecha)">
+                <div class="dia-numero">{{ dia.numero }}</div>
+                <div class="dia-citas">
+                    <div *ngFor="let cita of dia.citas" class="cita-mini"
+                        [ngClass]="obtenerClaseEstado(cita.estadoCita)"
+                        [title]="cita.hora + ' - ' + (cita.mascota?.nombre || cita.nombreMascota || 'N/A')">
+                        {{ cita.hora }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

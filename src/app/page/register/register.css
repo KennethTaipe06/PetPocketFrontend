@@ -1,0 +1,93 @@
+.login-page {
+  display: flex;
+  height: 100vh;
+  background: #ebebeb;
+}
+
+/* IZQUIERDA */
+.image-section {
+  width: 50%;
+  background-image: url('/PETPOCKET.png');
+  background-size: cover;
+  background-position: center;
+}
+
+/* DERECHA */
+.form-section {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* CARD (IGUAL AL LOGIN) */
+.card {
+  background: white;
+  width: 85%;
+  max-width: 480px;
+  padding: 40px;
+  border-radius: 30px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+  text-align: center;
+}
+
+/* TEXTOS */
+.brand {
+  color: #ff7a18;
+  font-weight: 900;
+  font-size: 26px;
+}
+
+.subtitle {
+  color: #777;
+  margin: 10px 0 25px;
+}
+
+/* INPUTS */
+input {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  background: #f2f2f2;
+  margin-bottom: 15px;
+  outline: none;
+}
+
+input:focus {
+  outline: 2px solid #ff7a18;
+}
+
+/* FILAS */
+.row {
+  display: flex;
+  gap: 12px;
+}
+
+.row input {
+  width: 100%;
+}
+
+/* BOTÓN */
+button {
+  width: 100%;
+  margin-top: 20px;
+  padding: 15px;
+  background: #ff7a18;
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #e96a10;
+}
+
+/* TEXTO INFERIOR */
+.bottom-text {
+  margin-top: 20px;
+  font-size: 14px;
+}

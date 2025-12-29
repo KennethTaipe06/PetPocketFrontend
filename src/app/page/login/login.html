@@ -1,0 +1,63 @@
+<div class="login-page">
+
+  <!-- IZQUIERDA -->
+  <div class="image-section"></div>
+
+  <!-- DERECHA -->
+  <div class="form-section">
+    <div class="card">
+
+      <h1 class="brand">PETPOCKET</h1>
+      <h2 class="title">Iniciar Sesión</h2>
+      <p class="subtitle">Ingresa tus credenciales para continuar</p>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+        <!-- Usuario/Correo -->
+        <label for="username">Usuario o Correo *</label>
+        <input
+          id="username"
+          type="text"
+          formControlName="username"
+          placeholder="ejemplo@correo.com"
+          [class.input-error]="loginForm.get('username')?.touched && loginForm.get('username')?.invalid"
+        >
+        <small *ngIf="loginForm.get('username')?.touched && loginForm.get('username')?.invalid" class="text-error">
+          Este campo es obligatorio.
+        </small>
+
+        <!-- Contraseña -->
+        <label for="password">Contraseña *</label>
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          placeholder="Ingresa tu contraseña"
+          [class.input-error]="loginForm.get('password')?.touched && loginForm.get('password')?.invalid"
+        >
+        <small *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid" class="text-error">
+          Ingresa tu contraseña.
+        </small>
+
+        <!-- Error del backend -->
+        <div *ngIf="mensajeError" class="alert-box">
+          ⚠️ {{ mensajeError }}
+        </div>
+
+        <!-- Botón -->
+        <button type="submit" [disabled]="loginForm.invalid" class="btn-login">
+          Iniciar sesión
+        </button>
+      </form>
+
+      <a class="forgot">¿Olvidaste tu contraseña?</a>
+
+      <p class="bottom-text">
+        ¿No tienes una cuenta?
+        <a routerLink="/register">Regístrate aquí</a>
+      </p>
+
+    </div>
+  </div>
+
+</div>
